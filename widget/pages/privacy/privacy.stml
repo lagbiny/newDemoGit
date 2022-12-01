@@ -1,0 +1,135 @@
+<template>
+    <view class="page">
+        <view class="cover">
+            <view class="box">
+                <text class="title">{title}</text>
+                <scroll-view class="content-area" bounces={false}>
+                    <text class="content">{content}</text>
+                    <rich-text class="policy-area" nodes={nodes} link-text-color="#6487df" user-select oninteract={this.onInteract}></rich-text>
+                </scroll-view>
+                <view class="btn-area">
+                    <text class="disagree" onclick="disagree()">{disagree}</text>
+                    <view class="line"></view>
+                    <text class="agree" onclick="agree()">{agree}</text>
+                </view>
+            </view>
+        </view>
+    </view>
+</template>
+<script>
+export default {
+    name: 'privacy',
+    data() {
+        return {
+            title:'隐私保护提示',
+            content:'1. 我们会遵循隐私政策收集、使用信息，但不会仅因同意本隐私政策而采取强制捆绑的方式收集信息。\n2. 为实现信息分享、考勤打卡、扫码等目的所必需，我们可能会调用第三方SDK并获取与功能相关的最小必要信息（设备信息等)。\n3. GPS、摄像头、麦克风、相册权限均不会默认开启，只有经过明示授权才会在为实现功能或服务时使用，不会在功能或服务不需要时而通过你授权的权限收集信息。',
+            nodes:'<div style="line-height:20px;font-size:14px;">您可以查看完整版<a href="widget://pages/privacypolicy.stml" style="color:#6487df;text-decoration:none;">《隐私协议》</a>、<a href="widget://pages/userpolicy.stml" style="color:#6487df;text-decoration:none;">《用户协议》</a></div>',
+            disagree:'不同意',
+            agree:'同意',
+            isTipMode:false
+        }
+    },
+    methods: {
+        apiready() {
+            
+        },
+        disagree() {
+            if (this.data.isTipMode) {
+                api.closeWidget({silent:true});
+            } else {
+                this.data.title = '温馨提示';
+                this.data.content = '您的信息仅用于为您提供服务，我们坚决保障您的隐私信息安全。如果您仍不同意本隐私协议，很遗憾我们将无法继续为您提供服务。';
+                this.data.disagree = '不同意并退出';
+                this.data.agree = '同意并继续';
+                this.data.isTipMode = true;
+            }
+        },
+        agree() {
+            api.agreedPrivacy();
+        },
+        onInteract(e) {
+            let url = e.detail.url;
+			console.log(url)
+			
+            api.openWin({
+				name: 'privacy',
+				url: url
+			})
+
+		    // api.agreedPrivacy();
+        }
+    }
+}
+</script>
+<style>
+.page {
+    width: 100%;
+    height: 100%;
+}
+.cover {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+.box {
+    width: 85%;
+    max-width: 360px;
+    min-height: 167px;
+    max-height: 480px;
+    background-color: white;
+    border-radius: 14px;
+}
+.title {
+    margin: 10px 15px;
+    color: black;
+    font-weight: 600;
+    text-align: center;
+    white-space: normal;
+}
+.content-area {
+    min-height: 90px;
+    max-height: 400px;
+    overflow: scroll;
+}
+.content {
+    margin: 0 15px;
+    color: black;
+    font-size: 14px;
+    white-space: normal;
+}
+.policy-area {
+    margin: 10px 15px;
+    white-space: normal;
+}
+.btn-area {
+    flex-direction: row;
+    align-items: center;
+    height: 40px;
+    border-top: 0.5px solid #f5f5f5;
+}
+.disagree {
+    flex: 1;
+    text-align: center;
+    line-height: 40px;
+    color: #555;
+}
+.disagree:active {
+    opacity: 0.8;
+}
+.line {
+    width: 0.5px;
+    height: 28px;
+    background-color: #f5f5f5;
+}
+.agree {
+    flex: 1;
+    text-align: center;
+    line-height: 40px;
+    color: #EE2233;
+}
+.agree:active {
+    opacity: 0.8;
+}
+</style>

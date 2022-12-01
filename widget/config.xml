@@ -1,0 +1,39 @@
+<widget id="A6114318530126" version="0.0.1">
+
+	<name>引擎测试用例</name>
+
+	<content src="index.html"/>
+
+	<preference name="pageBounce" value="false"/>
+
+	<preference name="appBackground" value="#FFF"/>
+
+	<preference name="autoUpdate" value="true"/>
+
+	<preference name="smartUpdate" value="false"/>
+
+	<preference name="debug" value="true"/>
+
+	<preference name="statusBarAppearance" value="true"/>
+
+	<preference name="checkSslTrusted" value="false"/>
+
+	<access origin="*"/>
+
+	<permission name="readPhoneState"/>
+
+	<permission name="contact"/>
+
+	<permission name="internet"/>
+
+	<permission name="fileSystem"/>
+
+	<permission name="location"/>
+
+	<permission name="camera"/>
+
+	<permission name="sms"/>
+
+	<permission name="call"/>
+
+</widget>
